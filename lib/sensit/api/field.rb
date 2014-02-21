@@ -39,12 +39,10 @@ module Sensit
       # Adds a new field that feed data can be added too. Requires authorization of **manage_any_data**, or **manage_application_data**
       # '/topics/:topic_id/fields' POST
       #
-      # name - The descriptive name of the field.
-      # key - The name that the is used to identify the field in a feed
-      def create(name, key, options = {})
+      # field - A Hash containing`name`: A descriptive name of the field.`key`:The name that is used to identify the field in a feed (required).`datatype`:The type of data that is stored in the field. ie. integer, float, string, bool, datetime
+      def create(field, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
-        body[:key] = key
+        body[:field] = field
 
         response = @client.post "/topics/#{@topic_id}/fields", body, options
 
@@ -54,10 +52,10 @@ module Sensit
       # Updates the Field data and makes the corresponding changes in the index. Requires authorization of **manage_any_data**, or **manage_application_data**
       # '/api/topics/:topic_id/fields/:id' PUT
       #
-      # name - The descriptive name of the field.
-      def update(name, options = {})
+      # field - A Hash containing`name`: A descriptive name of the field.`key`:The name that is used to identify the field in a feed (required).`datatype`:The type of data that is stored in the field. ie. integer, float, string, bool, datetime
+      def update(field, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
+        body[:field] = field
 
         response = @client.put "/api/topics/#{@topic_id}/fields/#{@id}", body, options
 

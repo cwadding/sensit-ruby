@@ -35,18 +35,10 @@ client = Sensit::Client.new
 client = Sensit::Client.new({}, options)
 ```
 
-##### Oauth acess token
+##### Authorization header token
 
 ```ruby
 client = Sensit::Client.new('1a2b3', options)
-```
-
-##### Oauth client secret
-
-```ruby
-auth = { :client_id => '09a8b7', :client_secret => '1a2b3' }
-
-client = Sensit::Client.new(auth, options)
 ```
 
 ### Response information
@@ -173,10 +165,10 @@ Requires authorization of **manage_any_data**, or **manage_application_data**.
 
 The following arguments are required:
 
- * __name__: The name and id of the topic.
+ * __topic__: A hash containing the name/id of the topic (required) and a description of the topic.
 
 ```ruby
-response = topic.create("my_topic", "Event data from source A.", options)
+response = topic.create("{name:'my_topic', description:'Event data from source A.'}", options)
 ```
 
 ##### Update a Topic (PUT /topics/:id)
@@ -185,10 +177,10 @@ Requires authorization of **manage_any_data**, or **manage_application_data**.
 
 The following arguments are required:
 
- * __name__: The name and id of the topic.
+ * __topic__: A hash containing the name/id of the topic (required) and a description of the topic.
 
 ```ruby
-response = topic.update("my_topic", "Event data from source A.", options)
+response = topic.update("{name:'my_topic', description:'Event data from source A.'}", options)
 ```
 
 ##### Delete a Topic (DELETE /topics/:id)
@@ -240,10 +232,10 @@ Create a feed on a given topic. Requires authorization of **read_any_data**, or 
 
 The following arguments are required:
 
- * __data__: A hash of data to be stored
+ * __feed__: A Hash containing `at`: a formatted time of the event. Defaults to the current time if not present.`tz`: The time zone of the time given in `at`. Defaults to UTC`data`:A hash of data to be stored
 
 ```ruby
-response = feed.create("2013-02-14T16:13:33.378Z", "Eastern Time (US & Canada)", "{"key1":123, "key2":456.2, "city":"alabama"}", options)
+response = feed.create("{at: '2013-02-14T16:13:33.378Z', tz: 'Eastern Time (US & Canada)', data:{key1:123, key2:456.2, city:'alabama'}}", options)
 ```
 
 ##### Update a Feed (PUT /topics/:topic_id/feeds/:id)
@@ -252,10 +244,10 @@ Update an associated Feed to the Topic. Requires authorization of **read_any_dat
 
 The following arguments are required:
 
- * __data__: A hash of data to be stored
+ * __feed__: A hash containing `data`:A hash of data to be stored
 
 ```ruby
-response = feed.update("Eastern Time (US & Canada)", "{"key1":123, "key2":456.2, "city":"alabama"}", options)
+response = feed.update("{data:{key1:123, key2:456.2, city:'alabama'}}", options)
 ```
 
 ##### Delete a Feed (DELETE /topics/:topic_id/feeds/:id)
@@ -341,11 +333,10 @@ Create a percolator on the associated Topic with the specified name and query. R
 
 The following arguments are required:
 
- * __name__: The time zone of the time. Defaults to UTC
- * __query__: A hash of data to be stored
+ * __percolator__: A Hash containing `name`: The name of the percolator(required).`query`: The query hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
 
 ```ruby
-response = percolator.create("Eastern Time (US & Canada)", "{"key1":123, "key2":456.2, "city":"alabama"}", options)
+response = percolator.create("{name: 'Kimchy-User', query:{term: {user: 'kimchy'}}}", options)
 ```
 
 ##### Update a Percolator (PUT /topics/:topic_id/percolators/:id)
@@ -354,10 +345,10 @@ Update the query for a specific percolator. Requires authorization of **manage_a
 
 The following arguments are required:
 
- * __query__: A hash of data to be stored
+ * __percolator__: A Hash containing the `query` hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
 
 ```ruby
-response = percolator.update("{"key1":123, "key2":456.2, "city":"alabama"}", options)
+response = percolator.update("{query:{term: {user: 'kimchy'}}}", options)
 ```
 
 ##### Delete a Percolator (DELETE /topics/:topic_id/percolators/:id)
@@ -409,12 +400,10 @@ Create a new report on the associated Topic which can be easily retrieved later 
 
 The following arguments are required:
 
- * __name__: The name of the report.
- * __query__: The search query to filter the data for the facet
- * __facets__: An array of facet hashes which each contain a `name` ad type of the facet along with its query hash.
+ * __report__: A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
 
 ```ruby
-response = report.create("My report", "{"match_all": { }}", "[{"name": "facet1", "type": "terms" ,"query": { "field": "value1"}}]", options)
+response = report.create("{name:'My report', query:{match_all: { }}, facets:[{name: 'facet1', type: 'terms', query: { field: 'value1'}}]}", options)
 ```
 
 ##### Update a Report for a Topic (PUT /topics/:topic_id/reports/:id)
@@ -423,12 +412,10 @@ Update the query, facets or name of the report. Requires authorization of **mana
 
 The following arguments are required:
 
- * __name__: The name of the report.
- * __query__: The search query to filter the data for the facet
- * __facets__: An array of facet hashes which each contain a `name` ad type of the facet along with its query hash.
+ * __report__: A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
 
 ```ruby
-response = report.update("My report", "{"match_all": { }}", "[{"name": "facet1", "type": "terms" ,"query": { "field": "value1"}}]", options)
+response = report.update("{name:'My report', query:{match_all: { }}, facets:[{name: 'facet1', type: 'terms', query: { field: 'value1'}}]}", options)
 ```
 
 ##### Delete a Report (DELETE /topics/:topic_id/reports/:id)
@@ -479,12 +466,10 @@ Create a subscription which will connect to the server and listen for feed data 
 
 The following arguments are required:
 
- * __name__: The channel or name to identify the subscription.
- * __host__: The ip address or host of the connection
- * __protocol__: the protocol to comminivate over
+ * __subscription__: A Hash containing`name`:The channel or name to identify the subscription(required).`host`:The ip address or host of the connection(required).`protocol`:the protocol to communicate over (http, tcp, udp, mqtt) (required)`port`:The port of the connection.
 
 ```ruby
-response = subscription.create("alpha", "10.234.12.11", "http", "80", options)
+response = subscription.create("{name:'alpha', host:'10.234.12.11', protocol:'http', port:80}", options)
 ```
 
 ##### Update a Subscription (PUT /subscriptions/:id)
@@ -493,12 +478,10 @@ Returns an object with the current configuration that Buffer is using, including
 
 The following arguments are required:
 
- * __name__: The channel or name to identify the subscription.
- * __host__: The ip address or host of the connection
- * __protocol__: the protocol to comminivate over
+ * __subscription__: A Hash containing`name`:The channel or name to identify the subscription(required).`host`:The ip address or host of the connection(required).`protocol`:the protocol to communicate over (http, tcp, udp, mqtt) (required)`port`:The port of the connection.
 
 ```ruby
-response = subscription.update("alpha", "10.234.12.11", "http", "80", options)
+response = subscription.update("{name:'alpha', host:'10.234.12.11', protocol:'http', port:80}", options)
 ```
 
 ##### Delete a Subscription (DELETE /subscriptions/:id)
@@ -550,11 +533,10 @@ Adds a new field that feed data can be added too. Requires authorization of **ma
 
 The following arguments are required:
 
- * __name__: The descriptive name of the field.
- * __key__: The name that the is used to identify the field in a feed
+ * __field__: A Hash containing`name`: A descriptive name of the field.`key`:The name that is used to identify the field in a feed (required).`datatype`:The type of data that is stored in the field. ie. integer, float, string, bool, datetime
 
 ```ruby
-response = field.create("Transaction ID", "key1", "string", options)
+response = field.create("{name:'Transaction ID', key:'tran_id', datatype:'integer'}", options)
 ```
 
 ##### Update a Field on a Topic (PUT /api/topics/:topic_id/fields/:id)
@@ -563,10 +545,10 @@ Updates the Field data and makes the corresponding changes in the index. Require
 
 The following arguments are required:
 
- * __name__: The descriptive name of the field.
+ * __field__: A Hash containing`name`: A descriptive name of the field.`key`:The name that is used to identify the field in a feed (required).`datatype`:The type of data that is stored in the field. ie. integer, float, string, bool, datetime
 
 ```ruby
-response = field.update("Transaction ID", "string", options)
+response = field.update("{name:'Transaction ID', key:'tran_id', datatype:'integer'}", options)
 ```
 
 ##### Delete a Field of the associated Topic. (DELETE /api/topics/:topic_id/fields/:id)

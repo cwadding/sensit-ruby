@@ -39,10 +39,10 @@ module Sensit
       # Create a feed on a given topic. Requires authorization of **read_any_data**, or **read_application_data**.
       # '/topics/:topic_id/feeds' POST
       #
-      # data - A hash of data to be stored
-      def create(data, options = {})
+      # feed - A Hash containing `at`: a formatted time of the event. Defaults to the current time if not present.`tz`: The time zone of the time given in `at`. Defaults to UTC`data`:A hash of data to be stored
+      def create(feed, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:data] = data
+        body[:feed] = feed
 
         response = @client.post "/topics/#{@topic_id}/feeds", body, options
 
@@ -52,10 +52,10 @@ module Sensit
       # Update an associated Feed to the Topic. Requires authorization of **read_any_data**, or **read_application_data**.
       # '/topics/:topic_id/feeds/:id' PUT
       #
-      # data - A hash of data to be stored
-      def update(data, options = {})
+      # feed - A hash containing `data`:A hash of data to be stored
+      def update(feed, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:data] = data
+        body[:feed] = feed
 
         response = @client.put "/topics/#{@topic_id}/feeds/#{@id}", body, options
 

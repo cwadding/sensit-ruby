@@ -16,12 +16,11 @@ module Sensit
       def initialize(auth = {}, options = {})
 
         if auth.is_a? String
-          auth = { :access_token => auth }
+          auth = { :http_header => auth }
         end
 
         @options = {
           :base => "http://sensit.herokuapp.com/api",
-          :api_version => "1",
           :user_agent => "alpaca/0.2.0 (https://github.com/pksunkara/alpaca)"
         }
 

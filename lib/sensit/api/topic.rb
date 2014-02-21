@@ -35,10 +35,10 @@ module Sensit
       # Requires authorization of **manage_any_data**, or **manage_application_data**.
       # '/topics' POST
       #
-      # name - The name and id of the topic.
-      def create(name, options = {})
+      # topic - A hash containing the name/id of the topic (required) and a description of the topic.
+      def create(topic, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
+        body[:topic] = topic
 
         response = @client.post "/topics", body, options
 
@@ -48,10 +48,10 @@ module Sensit
       # Requires authorization of **manage_any_data**, or **manage_application_data**.
       # '/topics/:id' PUT
       #
-      # name - The name and id of the topic.
-      def update(name, options = {})
+      # topic - A hash containing the name/id of the topic (required) and a description of the topic.
+      def update(topic, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
+        body[:topic] = topic
 
         response = @client.put "/topics/:id", body, options
 

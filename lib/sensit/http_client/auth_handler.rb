@@ -7,8 +7,7 @@ module Sensit
     # AuthHandler takes care of devising the auth type and using it
     class AuthHandler < Faraday::Middleware
 
-      URL_SECRET = 2
-      URL_TOKEN = 3
+      HTTP_HEADER = 1
 
       def initialize(app, auth = {}, options = {})
         @auth = auth
@@ -20,13 +19,8 @@ module Sensit
           auth = get_auth_type
           flag = false
 
-          if auth == URL_SECRET
-            env = url_secret env
-            flag = true
-          end
-
-          if auth == URL_TOKEN
-            env = url_token env
+          if auth == HTTP_HEADER
+            env = http_header env
             flag = true
           end
 
@@ -41,32 +35,18 @@ module Sensit
       # Calculating the Authentication Type
       def get_auth_type()
 
-        if @auth.has_key?(:client_id) and @auth.has_key?(:client_secret)
-          return URL_SECRET
-        end
-
-        if @auth.has_key?(:access_token)
-          return URL_TOKEN
+        if @auth.has_key?(:http_header)
+          return HTTP_HEADER
         end
 
         return -1
       end
 
-      # OAUTH2 Authorization with client secret
-      def url_secret(env)
-        query = {
-          :client_id => @auth[:client_id],
-          :client_secret => @auth[:client_secret]
-        }
+      # Authorization with HTTP header
+      def http_header(env)
+        env[:request_headers]["Authorization"] = "Bearer #{@auth[:http_header]}"
 
-        merge_query env, query
-      end
-
-      # OAUTH2 Authorization with access token
-      def url_token(env)
-        query = { :access_token => @auth[:access_token] }
-
-        merge_query env, query
+        return env
       end
 
       def query_params(url)

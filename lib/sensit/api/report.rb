@@ -39,14 +39,10 @@ module Sensit
       # Create a new report on the associated Topic which can be easily retrieved later using an id. Requires authorization of **manage_any_reports**, or **manage_application_reports**.
       # '/topics/:topic_id/reports' POST
       #
-      # name - The name of the report.
-      # query - The search query to filter the data for the facet
-      # facets - An array of facet hashes which each contain a `name` ad type of the facet along with its query hash.
-      def create(name, query, facets, options = {})
+      # report - A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
+      def create(report, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
-        body[:query] = query
-        body[:facets] = facets
+        body[:report] = report
 
         response = @client.post "/topics/#{@topic_id}/reports", body, options
 
@@ -56,14 +52,10 @@ module Sensit
       # Update the query, facets or name of the report. Requires authorization of **manage_any_reports**, or **manage_application_reports**.
       # '/topics/:topic_id/reports/:id' PUT
       #
-      # name - The name of the report.
-      # query - The search query to filter the data for the facet
-      # facets - An array of facet hashes which each contain a `name` ad type of the facet along with its query hash.
-      def update(name, query, facets, options = {})
+      # report - A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
+      def update(report, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
-        body[:query] = query
-        body[:facets] = facets
+        body[:report] = report
 
         response = @client.put "/topics/#{@topic_id}/reports/#{@id}", body, options
 

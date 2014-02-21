@@ -39,12 +39,10 @@ module Sensit
       # Create a percolator on the associated Topic with the specified name and query. Requires authorization of **manage_any_percolators**, or **manage_application_percolators**.
       # '/topics/:topic_id/percolators' POST
       #
-      # name - The time zone of the time. Defaults to UTC
-      # query - A hash of data to be stored
-      def create(name, query, options = {})
+      # percolator - A Hash containing `name`: The name of the percolator(required).`query`: The query hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
+      def create(percolator, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:name] = name
-        body[:query] = query
+        body[:percolator] = percolator
 
         response = @client.post "/topics/#{@topic_id}/percolators", body, options
 
@@ -54,10 +52,10 @@ module Sensit
       # Update the query for a specific percolator. Requires authorization of **manage_any_percolators**, or **manage_application_percolators**.
       # '/topics/:topic_id/percolators/:id' PUT
       #
-      # query - A hash of data to be stored
-      def update(query, options = {})
+      # percolator - A Hash containing the `query` hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
+      def update(percolator, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
-        body[:query] = query
+        body[:percolator] = percolator
 
         response = @client.put "/topics/#{@topic_id}/percolators/#{@id}", body, options
 
