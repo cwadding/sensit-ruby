@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name        = "sensit-client"
-  gem.version     = "0.0.2"
+  gem.version     = "0.0.1"
   gem.description = "Official Sensit API library client for ruby"
   gem.summary     = "Official Sensit API library client for ruby"
 

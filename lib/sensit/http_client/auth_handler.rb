@@ -44,7 +44,7 @@ module Sensit
 
       # Authorization with HTTP header
       def http_header(env)
-        env[:request_headers]["Authorization"] = "Bearer #{@auth[:http_header]}"
+        env[:request_headers]["Authorization"] = "token #{@auth[:http_header]}"
 
         return env
       end

@@ -15,36 +15,36 @@ module Sensit
       end
 
       # Get all the fields associated with a topic. Requires authorization of **read_any_data**, or **read_application_data**
-      # '/topics/:topic_id/fields' GET
+      # '/api/topics/:topic_id/fields' GET
       #
       def list(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/fields", body, options
+        response = @client.get "/api/topics/#{@topic_id}/fields", body, options
 
         return response
       end
 
       # Get a Field of the associated a topic and Id. Requires authorization of **read_any_data**, or **read_application_data**
-      # '/topics/:topic_id/fields/:id' GET
+      # '/api/topics/:topic_id/fields/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/fields/#{@id}", body, options
+        response = @client.get "/api/topics/#{@topic_id}/fields/#{@id}", body, options
 
         return response
       end
 
       # Adds a new field that feed data can be added too. Requires authorization of **manage_any_data**, or **manage_application_data**
-      # '/topics/:topic_id/fields' POST
+      # '/api/topics/:topic_id/fields' POST
       #
       # field - A Hash containing`name`: A descriptive name of the field.`key`:The name that is used to identify the field in a feed (required).`datatype`:The type of data that is stored in the field. ie. integer, float, string, bool, datetime
       def create(field, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:field] = field
 
-        response = @client.post "/topics/#{@topic_id}/fields", body, options
+        response = @client.post "/api/topics/#{@topic_id}/fields", body, options
 
         return response
       end

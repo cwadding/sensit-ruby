@@ -13,60 +13,60 @@ module Sensit
       end
 
       # Get the list of all subscriptions for importing feed data to the associated topics. Requires authorization of **read_any_subscriptions**, or **read_application_subscriptions**.
-      # '/subscriptions' GET
+      # '/api/subscriptions' GET
       #
       def list(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/subscriptions", body, options
+        response = @client.get "/api/subscriptions", body, options
 
         return response
       end
 
       # Get the information of a specific subscription. Requires authorization of **read_any_subscriptions**, or **read_application_subscriptions**.
-      # '/subscriptions/:id' GET
+      # '/api/subscriptions/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/subscriptions/#{@id}", body, options
+        response = @client.get "/api/subscriptions/#{@id}", body, options
 
         return response
       end
 
       # Create a subscription which will connect to the server and listen for feed data for any of the associated topics. Requires authorization of **manage_any_subscriptions**, or **manage_application_subscriptions**.
-      # '/subscriptions' POST
+      # '/api/subscriptions' POST
       #
       # subscription - A Hash containing`name`:The channel or name to identify the subscription(required).`host`:The ip address or host of the connection(required).`protocol`:the protocol to communicate over (http, tcp, udp, mqtt) (required)`port`:The port of the connection.
       def create(subscription, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:subscription] = subscription
 
-        response = @client.post "/subscriptions", body, options
+        response = @client.post "/api/subscriptions", body, options
 
         return response
       end
 
       # Returns an object with the current configuration that Buffer is using, including supported services, their icons and the varying limits of character and schedules.  Requires authorization of **manage_any_subscriptions**, or **manage_application_subscriptions**.
-      # '/subscriptions/:id' PUT
+      # '/api/subscriptions/:id' PUT
       #
       # subscription - A Hash containing`name`:The channel or name to identify the subscription(required).`host`:The ip address or host of the connection(required).`protocol`:the protocol to communicate over (http, tcp, udp, mqtt) (required)`port`:The port of the connection.
       def update(subscription, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:subscription] = subscription
 
-        response = @client.put "/subscriptions/#{@id}", body, options
+        response = @client.put "/api/subscriptions/#{@id}", body, options
 
         return response
       end
 
       # Delete the subscription and stop listening for feed data for the associated topics. Requires authorization of **manage_any_subscriptions**, or **manage_application_subscriptions**.
-      # '/subscriptions/:id' DELETE
+      # '/api/subscriptions/:id' DELETE
       #
       def delete(options = {})
         body = options.has_key?(:body) ? options[:body] : {}
 
-        response = @client.delete "/subscriptions/#{@id}", body, options
+        response = @client.delete "/api/subscriptions/#{@id}", body, options
 
         return response
       end

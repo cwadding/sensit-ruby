@@ -20,7 +20,7 @@ module Sensit
         end
 
         @options = {
-          :base => "http://sensit.herokuapp.com/api",
+          :base => "http://sensit.herokuapp.com",
           :user_agent => "alpaca/0.2.0 (https://github.com/pksunkara/alpaca)"
         }
 

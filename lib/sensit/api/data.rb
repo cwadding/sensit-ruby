@@ -17,23 +17,23 @@ module Sensit
       end
 
       # Requires authorization of **read_any_data**, or **read_application_data**.
-      # '/topics/:topic_id/feeds/:feed_id/data/:id' GET
+      # '/api/topics/:topic_id/feeds/:feed_id/data/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/feeds/#{@feed_id}/data/#{@id}", body, options
+        response = @client.get "/api/topics/#{@topic_id}/feeds/#{@feed_id}/data/#{@id}", body, options
 
         return response
       end
 
       # Update a specific value of a field within a feed with the data passed in. Requires authorization of **read_any_data**, or **read_application_data**.
-      # '/topics/:topic_id/feeds/:feed_id/data/:id' PUT
+      # '/api/topics/:topic_id/feeds/:feed_id/data/:id' PUT
       #
       def update(options = {})
         body = options.has_key?(:body) ? options[:body] : {}
 
-        response = @client.put "/topics/#{@topic_id}/feeds/#{@feed_id}/data/#{@id}", body, options
+        response = @client.put "/api/topics/#{@topic_id}/feeds/#{@feed_id}/data/#{@id}", body, options
 
         return response
       end

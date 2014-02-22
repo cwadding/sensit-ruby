@@ -15,60 +15,60 @@ module Sensit
       end
 
       # Get all reports for the associated Topic. Requires authorization of **read_any_reports**, or **read_application_reports**.
-      # '/topics/:topic_id/reports' GET
+      # '/api/topics/:topic_id/reports' GET
       #
       def list(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/reports", body, options
+        response = @client.get "/api/topics/#{@topic_id}/reports", body, options
 
         return response
       end
 
       # Retrieve a specific report on the associated topic by Id. Requires authorization of **read_any_reports**, or **read_application_reports**.
-      # '/topics/:topic_id/reports/:id' GET
+      # '/api/topics/:topic_id/reports/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/reports/#{@id}", body, options
+        response = @client.get "/api/topics/#{@topic_id}/reports/#{@id}", body, options
 
         return response
       end
 
       # Create a new report on the associated Topic which can be easily retrieved later using an id. Requires authorization of **manage_any_reports**, or **manage_application_reports**.
-      # '/topics/:topic_id/reports' POST
+      # '/api/topics/:topic_id/reports' POST
       #
       # report - A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
       def create(report, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:report] = report
 
-        response = @client.post "/topics/#{@topic_id}/reports", body, options
+        response = @client.post "/api/topics/#{@topic_id}/reports", body, options
 
         return response
       end
 
       # Update the query, facets or name of the report. Requires authorization of **manage_any_reports**, or **manage_application_reports**.
-      # '/topics/:topic_id/reports/:id' PUT
+      # '/api/topics/:topic_id/reports/:id' PUT
       #
       # report - A Hash containing `name`: The name of the report (required).`query`:The search query acccording to the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-queries.html) to filter the data for the facets (Defaults to match all).`facets`:An array of facet hashes which each contain a `name` ad type of the facet along with its query hash (required).
       def update(report, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:report] = report
 
-        response = @client.put "/topics/#{@topic_id}/reports/#{@id}", body, options
+        response = @client.put "/api/topics/#{@topic_id}/reports/#{@id}", body, options
 
         return response
       end
 
       # Remove a saved report on the associated Topic by Id. Requires authorization of **manage_any_reports**, or **manage_application_reports**.
-      # '/topics/:topic_id/reports/:id' DELETE
+      # '/api/topics/:topic_id/reports/:id' DELETE
       #
       def delete(options = {})
         body = options.has_key?(:body) ? options[:body] : {}
 
-        response = @client.delete "/topics/#{@topic_id}/reports/#{@id}", body, options
+        response = @client.delete "/api/topics/#{@topic_id}/reports/#{@id}", body, options
 
         return response
       end

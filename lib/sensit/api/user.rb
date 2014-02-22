@@ -11,12 +11,12 @@ module Sensit
       end
 
       # <no value>
-      # '/user' GET
+      # '/api/user' GET
       #
       def profile(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/user", body, options
+        response = @client.get "/api/user", body, options
 
         return response
       end

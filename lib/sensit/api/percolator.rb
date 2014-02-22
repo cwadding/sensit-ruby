@@ -15,60 +15,60 @@ module Sensit
       end
 
       # Returns a list or percolators for a given topic. Requires authorization of **read_any_percolators**, or **read_application_percolators**.
-      # '/topics/:topic_id/percolators' GET
+      # '/api/topics/:topic_id/percolators' GET
       #
       def list(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/percolators", body, options
+        response = @client.get "/api/topics/#{@topic_id}/percolators", body, options
 
         return response
       end
 
       # Return a specific percolator of the associated Topic by Id. Requires authorization of **read_any_percolators**, or **read_application_percolators**.
-      # '/topics/:topic_id/percolators/:id' GET
+      # '/api/topics/:topic_id/percolators/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/#{@topic_id}/percolators/#{@id}", body, options
+        response = @client.get "/api/topics/#{@topic_id}/percolators/#{@id}", body, options
 
         return response
       end
 
       # Create a percolator on the associated Topic with the specified name and query. Requires authorization of **manage_any_percolators**, or **manage_application_percolators**.
-      # '/topics/:topic_id/percolators' POST
+      # '/api/topics/:topic_id/percolators' POST
       #
       # percolator - A Hash containing `name`: The name of the percolator(required).`query`: The query hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
       def create(percolator, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:percolator] = percolator
 
-        response = @client.post "/topics/#{@topic_id}/percolators", body, options
+        response = @client.post "/api/topics/#{@topic_id}/percolators", body, options
 
         return response
       end
 
       # Update the query for a specific percolator. Requires authorization of **manage_any_percolators**, or **manage_application_percolators**.
-      # '/topics/:topic_id/percolators/:id' PUT
+      # '/api/topics/:topic_id/percolators/:id' PUT
       #
       # percolator - A Hash containing the `query` hash according to the according the the [elasticsearch Query DSL](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html)
       def update(percolator, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:percolator] = percolator
 
-        response = @client.put "/topics/#{@topic_id}/percolators/#{@id}", body, options
+        response = @client.put "/api/topics/#{@topic_id}/percolators/#{@id}", body, options
 
         return response
       end
 
       # Delete a percolator on the associated topic. Requires authorization of **manage_any_percolators**, or **manage_application_percolators**.
-      # '/topics/:topic_id/percolators/:id' DELETE
+      # '/api/topics/:topic_id/percolators/:id' DELETE
       #
       def delete(options = {})
         body = options.has_key?(:body) ? options[:body] : {}
 
-        response = @client.delete "/topics/#{@topic_id}/percolators/#{@id}", body, options
+        response = @client.delete "/api/topics/#{@topic_id}/percolators/#{@id}", body, options
 
         return response
       end

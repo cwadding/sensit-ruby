@@ -11,60 +11,60 @@ module Sensit
       end
 
       # Requires authorization of **read_any_data**, or **read_application_data**.
-      # '/topics' GET
+      # '/api/topics' GET
       #
       def list(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics", body, options
+        response = @client.get "/api/topics", body, options
 
         return response
       end
 
       # Requires authorization of **read_any_data**, or **read_application_data**.
-      # '/topics/:id' GET
+      # '/api/topics/:id' GET
       #
       def find(options = {})
         body = options.has_key?(:query) ? options[:query] : {}
 
-        response = @client.get "/topics/:id", body, options
+        response = @client.get "/api/topics/:id", body, options
 
         return response
       end
 
       # Requires authorization of **manage_any_data**, or **manage_application_data**.
-      # '/topics' POST
+      # '/api/topics' POST
       #
       # topic - A hash containing the name/id of the topic (required) and a description of the topic.
       def create(topic, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:topic] = topic
 
-        response = @client.post "/topics", body, options
+        response = @client.post "/api/topics", body, options
 
         return response
       end
 
       # Requires authorization of **manage_any_data**, or **manage_application_data**.
-      # '/topics/:id' PUT
+      # '/api/topics/:id' PUT
       #
       # topic - A hash containing the name/id of the topic (required) and a description of the topic.
       def update(topic, options = {})
         body = options.has_key?(:body) ? options[:body] : {}
         body[:topic] = topic
 
-        response = @client.put "/topics/:id", body, options
+        response = @client.put "/api/topics/:id", body, options
 
         return response
       end
 
       # Requires authorization of **manage_any_data**, or **manage_application_data**.
-      # '/topics/:id' DELETE
+      # '/api/topics/:id' DELETE
       #
       def delete(options = {})
         body = options.has_key?(:body) ? options[:body] : {}
 
-        response = @client.delete "/topics/:id", body, options
+        response = @client.delete "/api/topics/:id", body, options
 
         return response
       end
